@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tradox"
 include(":app")
- 
+include(":core:ui")
