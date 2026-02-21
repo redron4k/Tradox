@@ -34,16 +34,16 @@ val LocalTradoxColors = staticCompositionLocalOf<TradoxColors> {
 }
 
 internal val LightColors = TradoxColors(
-    primary = Primary900,
-    primaryVariant = Primary700,
-    primarySoft = Primary100,
+    primary = Primary1,
+    primaryVariant = Primary2,
+    primarySoft = Primary4,
 
-    background = Neutral0,
-    surface = Neutral0,
+    background = Neutral6,
+    surface = Neutral6,
 
-    textPrimary = Neutral900,
-    textSecondary = Neutral700,
-    textDisabled = Neutral300,
+    textPrimary = Neutral1,
+    textSecondary = Neutral2,
+    textDisabled = Neutral4,
 
     success = SuccessMint,
     error = ErrorRed,
@@ -53,16 +53,16 @@ internal val LightColors = TradoxColors(
 )
 
 internal val DarkColors = TradoxColors(
-    primary = Primary500,
-    primaryVariant = Primary700,
-    primarySoft = Primary900,
+    primary = Primary3,
+    primaryVariant = Primary2,
+    primarySoft = Primary1,
 
-    background = Neutral900,
-    surface = Neutral900,
+    background = Neutral1,
+    surface = Neutral1,
 
-    textPrimary = Neutral0,
-    textSecondary = Neutral300,
-    textDisabled = Neutral600,
+    textPrimary = Neutral6,
+    textSecondary = Neutral4,
+    textDisabled = Neutral3,
 
     success = SuccessMint,
     error = ErrorRed,

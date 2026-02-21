@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.compose.ui.text.google.fonts)
+    api(projects.core.common)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
