@@ -35,4 +35,5 @@ dependencies {
     api(projects.core.common)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.tooling.preview)
 }
