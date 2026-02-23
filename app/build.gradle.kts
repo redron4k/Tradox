@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -17,8 +18,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -37,6 +36,16 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeBom.toString()
+    }
+    sourceSets {
+        getByName("main") {
+            java {
+                directories.add("build/generated/ksp/debug/java")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -50,6 +59,15 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     implementation(projects.core.ui)
+    implementation(projects.core.network)
+    implementation(projects.data)
+    implementation(projects.domain)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.client.okhttp)
+
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 }
