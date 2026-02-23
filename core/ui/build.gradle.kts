@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "redon.tradox.core.ui"
+    namespace = "redron.tradox.core.ui"
     compileSdk = 36
 
     defaultConfig {

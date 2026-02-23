@@ -1,4 +1,4 @@
-package redon.tradox.core.ui.theme
+package redron.tradox.core.ui.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf

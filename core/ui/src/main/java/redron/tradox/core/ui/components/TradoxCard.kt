@@ -1,4 +1,4 @@
-package redon.tradox.core.ui.components
+package redron.tradox.core.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,7 +8,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import redon.tradox.core.ui.theme.TradoxTheme
+import redron.tradox.core.ui.theme.TradoxTheme
 
 @Composable
 fun TradoxCard(

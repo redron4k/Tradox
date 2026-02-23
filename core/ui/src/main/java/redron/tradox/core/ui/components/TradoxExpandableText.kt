@@ -1,4 +1,4 @@
-package redon.tradox.core.ui.components
+package redron.tradox.core.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import redon.tradox.core.common.R
-import redon.tradox.core.ui.theme.TradoxTheme
+import redron.tradox.core.common.R
+import redron.tradox.core.ui.theme.TradoxTheme
 
 @Composable
 fun TradoxExpandableText(

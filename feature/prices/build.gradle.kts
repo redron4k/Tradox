@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "redron.tradox.core.common"
+    namespace = "redron.tradox.feature.prices"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -36,4 +36,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

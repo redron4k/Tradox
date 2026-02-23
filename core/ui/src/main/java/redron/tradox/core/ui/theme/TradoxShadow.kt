@@ -1,4 +1,4 @@
-package redon.tradox.core.ui.theme
+package redron.tradox.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
