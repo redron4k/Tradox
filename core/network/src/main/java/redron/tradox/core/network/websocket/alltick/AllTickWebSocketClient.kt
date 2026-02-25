@@ -1,17 +1,19 @@
 package redron.tradox.core.network.websocket.alltick
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.http.URLProtocol
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import io.ktor.websocket.send
-import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import redron.tradox.core.network.websocket.reconnect.ReconnectPolicy
@@ -25,97 +27,141 @@ class AllTickWebSocketClient(
 
     private val reconnectPolicy = ReconnectPolicy()
 
-    fun observePrices(symbols: List<String>): Flow<AllTickQuoteMessage> = callbackFlow {
+    fun observePrices(
+        symbols: List<String>
+    ): Flow<AllTickQuoteMessage> = callbackFlow {
 
-        var attempt = 0
+        val wsJob = launch {
 
-        while (true) {
-            try {
+            var attempt = 0
 
-                println("Starting WS connection")
+            while (isActive) {
 
-                client.webSocket(
-                    host = AllTickConfig.HOST,
-                    path = AllTickConfig.PATH,
-                    request = {
+                try {
 
-                        url.protocol = URLProtocol.WSS
+                    println("Starting WS connection")
 
-                        url.parameters.append(
-                            AllTickConfig.queriesTokenParamName,
-                            apiKey
-                        )
-                    }
-                ) {
+                    client.webSocket(
+                        host = AllTickConfig.HOST,
+                        path = AllTickConfig.PATH,
+                        request = {
 
-                    println("WS CONNECTED")
+                            url.protocol = URLProtocol.WSS
 
-                    attempt = 0
+                            url.parameters.append(
+                                AllTickConfig.queriesTokenParamName,
+                                apiKey
+                            )
+                        }
+                    ) {
 
-                    val subscribeRequest =
-                        SubscribeCommand(
-                            seqId = 1,
-                            trace = UUID.randomUUID().toString(),
-                            data = SubscribeCommand.Data(
-                                symbolList = symbols.map {
-                                    SubscribeCommand.Symbol(it)
+                        println("WS CONNECTED")
+
+                        attempt = 0
+
+                        sendSubscribe(symbols)
+
+                        val heartbeatJob = startHeartbeat()
+
+                        try {
+
+                            for (frame in incoming) {
+
+                                if (frame is Frame.Text) {
+
+                                    val text = frame.readText()
+
+                                    println("WS RAW:")
+                                    println(text)
+
+                                    // subscribe response
+                                    if (text.contains("\"cmd_id\":22005"))
+                                        continue
+
+                                    // heartbeat response
+                                    if (text.contains("\"cmd_id\":22001"))
+                                        continue
+
+                                    val message =
+                                        json.decodeFromString<AllTickQuoteMessage>(
+                                            text
+                                        )
+
+                                    trySend(message)
                                 }
-                            )
-                        )
+                            }
 
-                    val subscribeJson = json.encodeToString(subscribeRequest)
-
-                    println("SUBSCRIBE JSON:")
-                    println(subscribeJson)
-
-                    send(subscribeJson)
-
-                    val heartbeatJob = launch {
-                        var seq = 100
-                        while (isActive) {
-                            delay(AllTickConfig.HEARTBEAT_INTERVAL_MS)
-                            val heartbeat = HeartbeatCommand(
-                                seqId = seq++,
-                                trace = UUID.randomUUID().toString()
-                            )
-
-                            val heartbeatJson = json.encodeToString(heartbeat)
-                            println("HEARTBEAT:")
-                            println(heartbeatJson)
-                            send(heartbeatJson)
+                        } finally {
+                            heartbeatJob.cancel()
                         }
                     }
 
-                    for (frame in incoming) {
+                } catch (e: Exception) {
 
-                        if (frame is Frame.Text) {
+                    println("WS ERROR:")
+                    e.printStackTrace()
 
-                            val text = frame.readText()
+                    attempt++
 
-                            println("WS RAW:")
-                            println(text)
-
-                            if (text.contains("\"cmd_id\":22005"))
-                                continue
-
-                            val message =
-                                json.decodeFromString<AllTickQuoteMessage>(text)
-
-                            trySend(message)
-                        }
-                    }
-                    heartbeatJob.cancel()
+                    reconnectPolicy.delayBeforeRetry(attempt)
                 }
-
-            } catch (e: Exception) {
-                println("WS ERROR:")
-                e.printStackTrace()
-
-                attempt++
-                reconnectPolicy.delayBeforeRetry(attempt)
             }
         }
 
-        awaitClose { }
+        awaitClose {
+
+            println("WS FLOW CLOSED")
+
+            wsJob.cancel()
+        }
     }
+
+
+    private suspend fun DefaultClientWebSocketSession.sendSubscribe(
+        symbols: List<String>
+    ) {
+
+        val subscribeRequest =
+            SubscribeCommand(
+                seqId = 1,
+                trace = UUID.randomUUID().toString(),
+                data = SubscribeCommand.Data(
+                    symbolList = symbols.map {
+                        SubscribeCommand.Symbol(it)
+                    }
+                )
+            )
+
+        val subscribeJson = json.encodeToString(subscribeRequest)
+
+        println("SUBSCRIBE JSON:")
+        println(subscribeJson)
+
+        send(subscribeJson)
+    }
+
+
+    private fun DefaultClientWebSocketSession.startHeartbeat(): Job =
+        launch {
+
+            var seq = 100
+
+            while (isActive) {
+
+                delay(AllTickConfig.HEARTBEAT_INTERVAL_MS)
+
+                val heartbeat =
+                    HeartbeatCommand(
+                        seqId = seq++,
+                        trace = UUID.randomUUID().toString()
+                    )
+
+                val heartbeatJson = json.encodeToString(heartbeat)
+
+                println("HEARTBEAT:")
+                println(heartbeatJson)
+
+                send(heartbeatJson)
+            }
+        }
 }
