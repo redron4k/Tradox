@@ -9,6 +9,7 @@ fun PriceDto.toDomain(): Price {
         symbol = symbol,
         value = price,
         timestamp = timestamp,
-        source = source
+        source = source,
+        isDelayed = isDelayed,
     )
 }

@@ -1,20 +1,45 @@
 package redron.tradox.core.network.websocket.alltick
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class AuthCommand(
-    val type: String = "auth",
-    val token: String
-)
 
 @Serializable
 data class SubscribeCommand(
-    val type: String = "subscribe",
-    val symbols: List<String>
-)
+
+    @SerialName("cmd_id")
+    val cmdId: Int = 22004,
+
+    @SerialName("seq_id")
+    val seqId: Int,
+
+    val trace: String,
+
+    val data: Data,
+) {
+
+    @Serializable
+    data class Data(
+
+        @SerialName("symbol_list")
+        val symbolList: List<Symbol>
+    )
+
+    @Serializable
+    data class Symbol(
+        val code: String
+    )
+}
 
 @Serializable
-data class PingCommand(
-    val type: String = "ping"
+data class HeartbeatCommand(
+    @SerialName("cmd_id")
+    val cmdId: Int = 22000,
+
+    @SerialName("seq_id")
+    val seqId: Int,
+
+    val trace: String,
+
+    val data: Map<String, String> = emptyMap(),
 )

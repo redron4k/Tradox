@@ -25,6 +25,7 @@ object HttpClientFactory {
                         isLenient = true
                         explicitNulls = false
                         coerceInputValues = true
+                        encodeDefaults = true
                     }
                 )
             }
@@ -35,7 +36,9 @@ object HttpClientFactory {
                 socketTimeoutMillis = NetworkConfig.SOCKET_TIMEOUT
             }
 
-            install(WebSockets)
+            install(WebSockets) {
+                pingInterval = NetworkConfig.PING_INTERVAL
+            }
 
             install(HttpRequestRetry) {
                 configureDefaultRetry()
@@ -43,7 +46,7 @@ object HttpClientFactory {
 
             if (NetworkConfig.ENABLE_LOGGING) {
                 install(Logging) {
-                    level = LogLevel.BODY
+                    level = LogLevel.ALL
                 }
             }
         }

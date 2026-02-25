@@ -4,26 +4,29 @@ import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
+import redon.tradox.data.BuildConfig
+import redron.tradox.core.network.common.client.HttpClientFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 object NetworkModule {
 
-    private const val API_KEY = "dummy_api_key"
-
     @Provides
     @Singleton
     fun provideJson(): Json =
-        Json { ignoreUnknownKeys = true }
+        Json {
+            ignoreUnknownKeys = true
+            encodeDefaults = true
+        }
 
     @Provides
     @Singleton
     fun provideHttpClient(): HttpClient =
-        HttpClient()
+        HttpClientFactory.create()
 
     @Provides
     @Singleton
     @Named("apiKey")
-    fun provideApiKey(): String = API_KEY
+    fun provideApiKey(): String = BuildConfig.ALLTICK_API_KEY
 }

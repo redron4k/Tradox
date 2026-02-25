@@ -3,6 +3,7 @@ package redron.tradox.data.di
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
+import kotlinx.serialization.json.Json
 import redron.tradox.core.network.websocket.alltick.AllTickWebSocketClient
 import redron.tradox.core.network.websocket.datasource.AllTickDataSource
 import redron.tradox.data.repository.PriceRepository
@@ -19,9 +20,14 @@ object DataModule {
     @Singleton
     fun provideAllTickWebSocketClient(
         client: HttpClient,
-        @Named("apiKey") apiKey: String
+        @Named("apiKey") apiKey: String,
+        json: Json
     ): AllTickWebSocketClient {
-        return AllTickWebSocketClient(client = client, apiKey = apiKey)
+        return AllTickWebSocketClient(
+            client = client,
+            apiKey = apiKey,
+            json = json,
+        )
     }
 
     @Provides

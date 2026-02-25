@@ -6,5 +6,6 @@ data class Price(
     val symbol: String,
     val value: Double,
     val timestamp: Instant,
-    val source: String
+    val source: String,
+    val isDelayed: Boolean,
 )

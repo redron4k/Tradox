@@ -1,3 +1,7 @@
+import java.util.Properties
+
+android.buildFeatures.buildConfig = true
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
@@ -10,6 +14,20 @@ android {
 
     defaultConfig {
         minSdk = 24
+
+
+        val localProperties = Properties().apply {
+            load(rootProject.file("local.properties").inputStream())
+        }
+
+        val allTickKey =
+            localProperties.getProperty("ALLTICK_API_KEY") ?: ""
+
+        buildConfigField(
+            "String",
+            "ALLTICK_API_KEY",
+            "\"$allTickKey\""
+        )
     }
 
     compileOptions {

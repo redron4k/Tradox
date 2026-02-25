@@ -5,6 +5,8 @@ object NetworkConfig {
     const val CONNECT_TIMEOUT = 10_000L
     const val SOCKET_TIMEOUT = 15_000L
 
+    const val PING_INTERVAL = 15_000L
+
     const val ENABLE_LOGGING = true
 
     const val YAHOO1_BASE_URL = "https://query1.finance.yahoo.com"

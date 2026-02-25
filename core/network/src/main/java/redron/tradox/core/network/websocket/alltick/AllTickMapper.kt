@@ -3,16 +3,15 @@ package redron.tradox.core.network.websocket.alltick
 import kotlinx.datetime.Instant
 import redron.tradox.core.network.common.model.PriceDto
 
-fun AllTickQuoteMessage.toPriceDto(): PriceDto? {
-    val symbol = symbol ?: return null
-    val price = price ?: return null
+fun AllTickQuoteMessage.toPriceDto(): PriceDto {
+
+    val d = data
 
     return PriceDto(
-        symbol = symbol,
-        price = price,
-        timestamp = timestamp?.let { Instant.fromEpochMilliseconds(it) }
-            ?: Instant.fromEpochMilliseconds(System.currentTimeMillis()),
+        symbol = d.code,
+        price = d.last_price?.toDoubleOrNull() ?: 0.0,
+        timestamp = Instant.fromEpochMilliseconds(d.ts?.toLong() ?: 0L),
         source = AllTickConfig.SOURCE_NAME,
-        isDelayed = false,
+        isDelayed = false
     )
 }
