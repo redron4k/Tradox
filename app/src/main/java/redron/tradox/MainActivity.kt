@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import redron.tradox.core.ui.theme.TradoxTheme
 import redron.tradox.feature.prices.presentation.PriceScreen
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     private val pricesComponent by lazy {
@@ -18,17 +19,25 @@ class MainActivity : ComponentActivity() {
             .create()
     }
 
+    private val instrumentComponent by lazy {
+        (application as TradoxApp)
+            .appComponent
+            .instrumentComponent()
+            .create()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val viewModel = pricesComponent.viewModel
+        val pricesViewModel = pricesComponent.viewModel
+        val instrumentViewModel = instrumentComponent.viewModel
 
         setContent {
             TradoxTheme {
                 Scaffold { innerPadding ->
                     PriceScreen(
-                        viewModel = viewModel,
+                        viewModel = pricesViewModel,
                         modifier = Modifier
                             .padding(innerPadding)
                     )

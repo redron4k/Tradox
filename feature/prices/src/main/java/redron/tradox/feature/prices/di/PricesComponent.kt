@@ -1,4 +1,4 @@
-package redron.tradox.feature.prices
+package redron.tradox.feature.prices.di
 
 import dagger.Subcomponent
 import redron.tradox.feature.prices.mvi.PriceViewModel

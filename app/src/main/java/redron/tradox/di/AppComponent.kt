@@ -6,7 +6,8 @@ import redron.tradox.data.di.NetworkModule
 import redron.tradox.domain.di.DomainModule
 import redron.tradox.domain.usecase.ObservePriceUseCase
 import redron.tradox.domain.usecase.ObservePricesUseCase
-import redron.tradox.feature.prices.PricesComponent
+import redron.tradox.feature.instrument.di.InstrumentComponent
+import redron.tradox.feature.prices.di.PricesComponent
 import javax.inject.Singleton
 
 @Singleton
@@ -22,6 +23,8 @@ interface AppComponent {
     fun observePriceUseCase(): ObservePriceUseCase
 
     fun observePricesUseCase(): ObservePricesUseCase
+
+    fun instrumentComponent(): InstrumentComponent.Factory
 
     fun pricesComponent(): PricesComponent.Factory
 }

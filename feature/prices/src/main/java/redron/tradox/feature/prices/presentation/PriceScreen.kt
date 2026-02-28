@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import redron.tradox.feature.prices.mvi.PriceAction
+import redron.tradox.feature.prices.mvi.PriceIntent
 import redron.tradox.feature.prices.mvi.PriceViewModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,7 +26,7 @@ fun PriceScreen(
 
     LaunchedEffect(Unit) {
         viewModel.process(
-            PriceAction.Load(
+            PriceIntent.Load(
                 listOf("AAPL.US", "MSFT.US", "TSLA.US")
             )
         )

@@ -62,7 +62,10 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.data)
     implementation(projects.domain)
+
     implementation(projects.feature.prices)
+    implementation(projects.feature.instrument)
+
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 

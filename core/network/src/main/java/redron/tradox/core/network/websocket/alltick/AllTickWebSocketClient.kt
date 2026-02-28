@@ -45,9 +45,7 @@ class AllTickWebSocketClient(
                         host = AllTickConfig.HOST,
                         path = AllTickConfig.PATH,
                         request = {
-
                             url.protocol = URLProtocol.WSS
-
                             url.parameters.append(
                                 AllTickConfig.queriesTokenParamName,
                                 apiKey
@@ -56,7 +54,6 @@ class AllTickWebSocketClient(
                     ) {
 
                         println("WS CONNECTED")
-
                         attempt = 0
 
                         sendSubscribe(symbols)
@@ -64,13 +61,9 @@ class AllTickWebSocketClient(
                         val heartbeatJob = startHeartbeat()
 
                         try {
-
                             for (frame in incoming) {
-
                                 if (frame is Frame.Text) {
-
                                     val text = frame.readText()
-
                                     println("WS RAW:")
                                     println(text)
 
@@ -97,21 +90,17 @@ class AllTickWebSocketClient(
                     }
 
                 } catch (e: Exception) {
-
                     println("WS ERROR:")
                     e.printStackTrace()
 
                     attempt++
-
                     reconnectPolicy.delayBeforeRetry(attempt)
                 }
             }
         }
 
         awaitClose {
-
             println("WS FLOW CLOSED")
-
             wsJob.cancel()
         }
     }
@@ -143,18 +132,15 @@ class AllTickWebSocketClient(
 
     private fun DefaultClientWebSocketSession.startHeartbeat(): Job =
         launch {
-
             var seq = 100
 
             while (isActive) {
-
                 delay(AllTickConfig.HEARTBEAT_INTERVAL_MS)
 
-                val heartbeat =
-                    HeartbeatCommand(
-                        seqId = seq++,
-                        trace = UUID.randomUUID().toString()
-                    )
+                val heartbeat = HeartbeatCommand(
+                    seqId = seq++,
+                    trace = UUID.randomUUID().toString()
+                )
 
                 val heartbeatJson = json.encodeToString(heartbeat)
 

@@ -18,10 +18,10 @@ class PriceViewModel @Inject constructor(
     private val _state = MutableStateFlow(PriceState())
     val state: StateFlow<PriceState> = _state.asStateFlow()
 
-    fun process(action: PriceAction) {
+    fun process(action: PriceIntent) {
         when (action) {
-            is PriceAction.Load -> load(action.symbols)
-            is PriceAction.Retry -> {
+            is PriceIntent.Load -> load(action.symbols)
+            is PriceIntent.Retry -> {
                 // TODO
             }
         }
