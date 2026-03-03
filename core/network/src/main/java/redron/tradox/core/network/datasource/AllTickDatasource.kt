@@ -5,10 +5,12 @@ import redron.tradox.core.network.websocket.alltick.toPriceDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
 import redron.tradox.core.network.common.model.dto.InstrumentDto
+import redron.tradox.core.network.common.model.dto.InstrumentStaticDetailsDto
 import redron.tradox.core.network.common.model.dto.PriceDto
 import redron.tradox.core.network.rest.alltick.AllTickRestApi
 import redron.tradox.core.network.rest.alltick.toInstrumentDto
 import redron.tradox.core.network.rest.alltick.toPriceDto
+import redron.tradox.core.network.rest.alltick.toStaticDetailsDto
 
 class AllTickDataSource(
     private val client: AllTickWebSocketClient,
@@ -33,6 +35,12 @@ class AllTickDataSource(
         return restApi.getInstrumentDetails(code).map { result ->
             result.data
             .toInstrumentDto()
+        }
+    }
+
+    suspend fun getInstrumentStaticDetails(code: String): Result<InstrumentStaticDetailsDto> {
+        return restApi.getInstrumentStaticDetails(code).map { result ->
+            result.toStaticDetailsDto()
         }
     }
 }

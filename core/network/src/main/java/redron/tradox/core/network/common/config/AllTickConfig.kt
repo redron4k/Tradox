@@ -19,7 +19,7 @@ data object AllTickConfig {
     data object Rest {
 
         const val PRICES_PATH = "/quote-stock-b-api/trade-tick"
-        const val INSTRUMENT_PATH = "/quote-stock-b-api/product"
+        const val INSTRUMENT_PATH = "/quote-stock-b-api/static_info"
         const val HISTORICAL_DATA_PATH = "/quote-stock-b-api/kline"
 
     }

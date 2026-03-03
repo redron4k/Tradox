@@ -16,3 +16,16 @@ data class InstrumentPointDto(
     val volume: Int,
     val turnover: Double,
 )
+
+data class InstrumentStaticDetailsDto(
+    val sector: String?,
+    val bps: Double?,
+    val circulatingShares: Long?,
+    val currency: String?,
+    val dividend: Double?,
+    val earningsPerShare: Double?,
+    val earningsPerShareTTM: Double?,
+    val exchange: String?,
+    val lotSize: Int?,
+    val totalShares: Long?,
+)

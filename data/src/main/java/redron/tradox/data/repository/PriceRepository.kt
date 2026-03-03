@@ -1,9 +1,11 @@
 package redron.tradox.data.repository
 
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import redron.tradox.core.network.datasource.AllTickDataSource
+import redron.tradox.data.mapper.appendStaticDetails
 import redron.tradox.data.mapper.toDomain
 import redron.tradox.domain.model.Price
 import redron.tradox.domain.model.instrument.InstrumentDetails
@@ -26,8 +28,19 @@ class PriceRepository(
     override suspend fun getInstrumentDetails(
         code: String,
     ): Result<InstrumentDetails> {
-        return datasource.getInstrumentDetails(code).map { result ->
+        val staticDetails = datasource.getInstrumentStaticDetails(code).map { result ->
             result.toDomain()
+        }
+
+        delay(1200L)
+
+        return datasource.getInstrumentDetails(code).map { result ->
+            if (staticDetails.isSuccess) {
+                result.toDomain()
+                    .appendStaticDetails(staticDetails.getOrNull())
+            } else {
+                result.toDomain()
+            }
         }
     }
 

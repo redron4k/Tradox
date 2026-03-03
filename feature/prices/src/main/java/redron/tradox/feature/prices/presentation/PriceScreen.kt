@@ -20,10 +20,12 @@ import androidx.compose.ui.Alignment
 import redron.tradox.feature.prices.mvi.PriceIntent
 import redron.tradox.feature.prices.mvi.PriceViewModel
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
+import redron.tradox.core.common.R
 import redron.tradox.core.ui.components.TradoxLoadingIndicator
 import redron.tradox.core.ui.theme.TradoxTheme
 import redron.tradox.feature.prices.presentation.components.PriceItemCard
@@ -57,7 +59,7 @@ fun PriceScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Instruments",
+                        text = stringResource(R.string.instruments_title),
                         style = TradoxTheme.typography.title2
                     )
                 }

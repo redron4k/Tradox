@@ -3,7 +3,6 @@ package redron.tradox.core.network.common.retry
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.http.HttpStatusCode
 import kotlin.math.min
-import kotlin.random.Random
 
 fun HttpRequestRetry.Configuration.configureDefaultRetry() {
 
@@ -26,12 +25,6 @@ fun HttpRequestRetry.Configuration.configureDefaultRetry() {
         val exponential =
             RetryConfig.BASE_DELAY_MS * (1 shl retry)
 
-        val capped = min(exponential, RetryConfig.MAX_DELAY_MS)
-
-        if (RetryConfig.ENABLE_JITTER) {
-            Random.nextLong(capped / 2, capped)
-        } else {
-            capped
-        }
+        min(exponential, RetryConfig.MAX_DELAY_MS)
     }
 }

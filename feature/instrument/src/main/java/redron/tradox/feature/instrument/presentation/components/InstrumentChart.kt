@@ -1,8 +1,6 @@
 package redron.tradox.feature.instrument.presentation.components
 
-import android.os.Build
 import android.text.TextPaint
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

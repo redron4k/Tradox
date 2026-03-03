@@ -10,5 +10,20 @@
     <string name="lite_chart_avg">Средняя</string>
     <string name="chart_mode_light">Light</string>
     <string name="chart_mode_pro">Pro</string>
-
+    <string name="static_info_title">Информация</string>
+    <string name="sector">Сектор</string>
+    <string name="currency">Валюта</string>
+    <string name="dividend">Дивиденд ($)</string>
+    <string name="eps">Прибыль на акцию (EPS)</string>
+    <string name="eps_ttm">Прибыль на акцию (EPS, TTM)</string>
+    <string name="total_shares">Всего акций</string>
+    <string name="lot_size">Размер лота</string>
+    <string name="hint_static_info_title">Общий блок со статической информацией об инструменте.</string>
+    <string name="hint_dividend">Размер дивиденда, выплачиваемого акционерам за одну акцию за последний период.</string>
+    <string name="hint_eps">Прибыль на акцию (EPS) — показатель чистой прибыли компании на одну акцию.</string>
+    <string name="hint_eps_ttm">Прибыль на акцию за последние 12 месяцев (TTM — trailing twelve months).</string>
+    <string name="hint_total_shares">Общее количество акций компании, находящихся в обращении на рынке.</string>
+    <string name="hint_lot_size">Размер стандартной торговой партии акций на бирже (минимальное количество для одной сделки).</string>
+    <string name="hint_icon_description">Показать подсказку</string>
+    <string name="instruments_title">Все акции</string>
 </resources>

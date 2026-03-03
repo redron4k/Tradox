@@ -13,6 +13,7 @@ import redron.tradox.core.network.common.model.plain_object.KLineResponse
 import redron.tradox.core.network.common.model.plain_object.LatestTickQueryData
 import redron.tradox.core.network.common.model.plain_object.LatestTickRequest
 import redron.tradox.core.network.common.model.plain_object.LatestTickResponse
+import redron.tradox.core.network.common.model.plain_object.StaticDetailsResponse
 import redron.tradox.core.network.common.model.plain_object.Symbol
 import java.util.UUID
 
@@ -21,10 +22,7 @@ class AllTickRestApi(
     private val apiKey: String,
     private val json: Json,
 ) {
-    suspend fun getInstrumentDetails(
-        code: String
-    ): Result<KLineResponse> {
-
+    suspend fun getInstrumentDetails(code: String): Result<KLineResponse> {
         val queryString = json.encodeToString(
             KLineRequest(
                 trace = UUID.randomUUID().toString(),
@@ -73,6 +71,32 @@ class AllTickRestApi(
                     queryString,
                 )
             }.body<LatestTickResponse>()
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getInstrumentStaticDetails(code: String): Result<StaticDetailsResponse> {
+        val queryString = json.encodeToString(
+            LatestTickRequest(
+                trace = UUID.randomUUID().toString(),
+                data = LatestTickQueryData(
+                    symbolList = listOf(
+                        Symbol(code)
+                    )
+                )
+            )
+        )
+
+        return try {
+            val response = client.get(AllTickConfig.Rest.INSTRUMENT_PATH) {
+                parameter(AllTickConfig.queriesTokenParamName, apiKey)
+                parameter(
+                    AllTickConfig.queriesQueryParamName,
+                    queryString,
+                )
+            }.body<StaticDetailsResponse>()
             Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)
