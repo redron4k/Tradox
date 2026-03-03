@@ -26,4 +26,8 @@
     <string name="hint_lot_size">Размер стандартной торговой партии акций на бирже (минимальное количество для одной сделки).</string>
     <string name="hint_icon_description">Показать подсказку</string>
     <string name="instruments_title">Все акции</string>
+    <string name="sort_price_up">Цена ↑</string>
+    <string name="sort_price_down">Цена ↓</string>
+    <string name="sort_name">Тикет</string>
+    <string name="sort_country">Страна</string>
 </resources>

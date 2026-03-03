@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,15 +24,17 @@ import redron.tradox.core.ui.theme.TradoxTheme
 fun PriceItemCard(
     symbol: String,
     price: Double,
+    startPrice: Double,
     source: String,
     lastUpdate: LocalDateTime,
+    isPinned: Boolean,
     onClick: () -> Unit,
+    onPin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val change = 2.1f
+    val change = price - startPrice
 
-    val changeColor =
-        if (change >= 0)
+    val changeColor = if (change >= 0)
             TradoxTheme.colors.success
         else
             TradoxTheme.colors.error
@@ -53,7 +57,11 @@ fun PriceItemCard(
                     color = TradoxTheme.colors.textPrimary
                 )
 
-                IconPin()
+                IconButton(
+                    onClick = onPin,
+                ) {
+                    IconPin(isPinned)
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))

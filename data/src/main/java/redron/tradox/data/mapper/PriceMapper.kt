@@ -9,6 +9,7 @@ import redron.tradox.domain.model.Price
 fun PriceDto.toDomain() = Price(
     symbol = symbol,
     value = price,
+    country = symbol.substringAfter("."),
     timestamp = timestamp,
     source = source,
     isDelayed = isDelayed,

@@ -60,7 +60,6 @@ fun InstrumentChart(
                 end = Offset(x, size.height),
                 strokeWidth = 1f
             )
-            // Time label
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
                     points[index].date,
@@ -71,11 +70,7 @@ fun InstrumentChart(
             }
         }
 
-        // -------------------
-        // Draw chart
-        // -------------------
         if (isProMode) {
-            // Candlestick chart
             points.forEachIndexed { index, point ->
                 val x = index * (widthPerPoint + spacing)
                 fun priceToY(price: Double) = size.height - ((price - minPrice) / priceRange * size.height).toFloat()
@@ -85,7 +80,6 @@ fun InstrumentChart(
                 val lowY = priceToY(point.lowPrice)
                 val color = if (point.closePrice >= point.openPrice) Color(0xFF2E7D32) else Color(0xFFC62828)
 
-                // Wick
                 drawLine(
                     color = color,
                     start = Offset(x + widthPerPoint / 2, highY),
@@ -93,7 +87,6 @@ fun InstrumentChart(
                     strokeWidth = 2f
                 )
 
-                // Body
                 drawRect(
                     color = color,
                     topLeft = Offset(x, min(openY, closeY)),
@@ -101,7 +94,6 @@ fun InstrumentChart(
                 )
             }
         } else {
-            // Lite line chart
             val path = Path()
             points.forEachIndexed { index, point ->
                 val x = index * (widthPerPoint + spacing)
@@ -110,7 +102,6 @@ fun InstrumentChart(
             }
             drawPath(path, color = lineColor, style = Stroke(width = 3f))
 
-            // Average line
             val avg = points.map { it.closePrice }.average()
             val yAvg = size.height - ((avg - minPrice) / priceRange * size.height).toFloat()
             drawLine(

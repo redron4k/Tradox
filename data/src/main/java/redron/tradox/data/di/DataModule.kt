@@ -7,7 +7,9 @@ import kotlinx.serialization.json.Json
 import redron.tradox.core.network.rest.alltick.AllTickRestApi
 import redron.tradox.core.network.websocket.alltick.AllTickWebSocketClient
 import redron.tradox.core.network.datasource.AllTickDataSource
+import redron.tradox.data.repository.PinnedRepository
 import redron.tradox.data.repository.PriceRepository
+import redron.tradox.domain.repository.IPinnedRepository
 import redron.tradox.domain.repository.IPriceRepository
 import javax.inject.Named
 import javax.inject.Singleton
@@ -65,4 +67,8 @@ object DataModule {
             json = json,
         )
     }
+
+    @Provides
+    @Singleton
+    fun providePinnedRepository(): IPinnedRepository = PinnedRepository()
 }

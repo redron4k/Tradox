@@ -2,8 +2,10 @@ package redron.tradox.domain.di
 
 import dagger.Module
 import dagger.Provides
+import redron.tradox.domain.repository.IPinnedRepository
 import redron.tradox.domain.repository.IPriceRepository
 import redron.tradox.domain.usecase.GetInstrumentDetailsUseCase
+import redron.tradox.domain.usecase.GetPinnedUseCase
 import redron.tradox.domain.usecase.LoadInitialPricesUseCase
 import redron.tradox.domain.usecase.ObservePriceUseCase
 import redron.tradox.domain.usecase.ObservePricesUseCase
@@ -42,5 +44,13 @@ object DomainModule {
         repository: IPriceRepository
     ): GetInstrumentDetailsUseCase {
         return GetInstrumentDetailsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetPinnedUseCase(
+        repository: IPinnedRepository
+    ): GetPinnedUseCase {
+        return GetPinnedUseCase(repository)
     }
 }
