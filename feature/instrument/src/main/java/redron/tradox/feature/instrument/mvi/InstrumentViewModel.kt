@@ -12,7 +12,6 @@ import javax.inject.Inject
 class InstrumentViewModel @Inject constructor(
     private val getDetails: GetInstrumentDetailsUseCase,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(InstrumentState())
 
     val state =  _state.asStateFlow()
@@ -24,15 +23,33 @@ class InstrumentViewModel @Inject constructor(
     }
 
     private fun load(code: String) {
-        viewModelScope.launch {
-            val details = getDetails(code)
+        _state.update {
+            it.copy(
+                isLoading = true,
+                error = null,
+            )
+        }
 
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    details = details,
-                )
-            }
+        viewModelScope.launch {
+            getDetails(code).fold(
+                onSuccess = { details ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            details = details,
+                        )
+                    }
+                },
+
+                onFailure = { throwable ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = throwable.message ?: "Unknown error",
+                        )
+                    }
+                }
+            )
         }
     }
 }

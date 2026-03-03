@@ -1,12 +1,11 @@
 package redron.tradox.feature.prices.di
 
 import dagger.Subcomponent
-import redron.tradox.feature.prices.mvi.PriceViewModel
 
-@Subcomponent
+@Subcomponent(modules = [PricesModule::class])
 interface PricesComponent {
 
-    val viewModel: PriceViewModel
+    val viewModelFactory: PriceViewModelFactory
 
     @Subcomponent.Factory
     interface Factory {

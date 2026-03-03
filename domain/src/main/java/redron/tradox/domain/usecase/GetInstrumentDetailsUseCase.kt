@@ -1,14 +1,11 @@
 package redron.tradox.domain.usecase
 
-import redron.tradox.domain.model.instrument.InstrumentDetails
-import redron.tradox.domain.repository.IInstrumentRepository
+import redron.tradox.domain.repository.IPriceRepository
 
 class GetInstrumentDetailsUseCase(
-    private val repository: IInstrumentRepository,
+    private val repository: IPriceRepository,
 ) {
-
     suspend operator fun invoke(
         code: String,
-    ): InstrumentDetails =
-        repository.getDetails(code)
+    ) = repository.getInstrumentDetails(code)
 }

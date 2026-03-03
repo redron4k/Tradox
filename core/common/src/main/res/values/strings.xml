@@ -3,4 +3,12 @@
 
     <string name="common_show_more_label">Показать больше</string>
     <string name="common_show_less_label">Показать меньше</string>
+    <string name="back">Назад</string>
+    <string name="error_loading">Ошибка загрузки</string>
+    <string name="price_format">%.2f</string>
+    <string name="change_format">%+.2f (%.2f%%)</string>
+    <string name="lite_chart_avg">Средняя</string>
+    <string name="chart_mode_light">Light</string>
+    <string name="chart_mode_pro">Pro</string>
+
 </resources>

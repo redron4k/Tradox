@@ -1,4 +1,4 @@
-package redron.tradox.core.network.common.model
+package redron.tradox.core.network.common.model.dto
 
 import kotlinx.datetime.Instant
 

@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import redron.tradox.core.network.common.config.AllTickConfig
 import redron.tradox.core.network.websocket.reconnect.ReconnectPolicy
 import java.util.UUID
 
@@ -42,8 +43,8 @@ class AllTickWebSocketClient(
                     println("Starting WS connection")
 
                     client.webSocket(
-                        host = AllTickConfig.HOST,
-                        path = AllTickConfig.PATH,
+                        host = AllTickConfig.BASE_URL,
+                        path = AllTickConfig.WebSocket.PATH,
                         request = {
                             url.protocol = URLProtocol.WSS
                             url.parameters.append(
@@ -135,7 +136,7 @@ class AllTickWebSocketClient(
             var seq = 100
 
             while (isActive) {
-                delay(AllTickConfig.HEARTBEAT_INTERVAL_MS)
+                delay(AllTickConfig.WebSocket.HEARTBEAT_INTERVAL_MS)
 
                 val heartbeat = HeartbeatCommand(
                     seqId = seq++,

@@ -13,7 +13,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
 
         val localProperties = Properties().apply {
@@ -43,5 +43,6 @@ dependencies {
     implementation(projects.domain)
     implementation(libs.kotlinx.datetime)
     implementation(libs.dagger)
+    implementation(libs.androidx.annotation.jvm)
     ksp(libs.dagger.compiler)
 }

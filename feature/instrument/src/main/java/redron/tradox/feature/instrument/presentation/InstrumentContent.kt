@@ -1,81 +1,77 @@
 package redron.tradox.feature.instrument.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import redron.tradox.core.common.R
 import redron.tradox.feature.instrument.mvi.InstrumentState
-import redron.tradox.feature.instrument.presentation.components.DividendItem
+import redron.tradox.feature.instrument.presentation.components.InstrumentChart
 
 @Composable
 fun InstrumentContent(
     state: InstrumentState,
-    modifier: Modifier = Modifier,
+    isProMode: Boolean,
+    modifier: Modifier = Modifier
 ) {
+    val details = state.details ?: return
+    val lastPoint = details.points.lastOrNull()
 
-    val instrument = state.details!!
-
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
-            .fillMaxSize(),
+    Column(
+        modifier = modifier.fillMaxSize()
     ) {
-        item {
-            Text(
-                text = instrument.code,
-                style = MaterialTheme.typography.headlineMedium
-            )
-        }
 
-        item {
+        Text(
+            text = details.code,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
+        )
 
-            Text(
-                text = instrument.name,
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
+        Spacer(modifier = Modifier.height(8.dp))
 
-        instrument.description?.let {
+        lastPoint?.let {
+            val change = it.closePrice - it.openPrice
+            val changePercent =
+                if (it.openPrice != 0.0)
+                    (change / it.openPrice) * 100
+                else 0.0
 
-            item {
+            val changeColor =
+                if (change >= 0)
+                    Color(0xFF2E7D32)
+                else
+                    Color(0xFFC62828)
+
+            Column {
+                Text(
+                    text = stringResource(R.string.price_format, it.closePrice),
+                    style = MaterialTheme.typography.headlineLarge
+                )
 
                 Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = stringResource(R.string.change_format, change, changePercent),
+                    color = changeColor
                 )
             }
         }
 
-        instrument.currency?.let {
+        Spacer(modifier = Modifier.height(24.dp))
 
-            item {
-
-                Text(
-                    text = "Currency: $it"
-                )
-            }
-        }
-
-        if (instrument.dividends.isNotEmpty()) {
-
-            item {
-
-                Text(
-                    text = "Dividends",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-
-            items(instrument.dividends) {
-                DividendItem(it)
-            }
-        }
+        InstrumentChart(
+            points = details.points,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp),
+            isProMode = isProMode
+        )
     }
 }

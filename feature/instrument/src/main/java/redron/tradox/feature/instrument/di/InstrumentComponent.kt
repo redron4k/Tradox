@@ -1,12 +1,11 @@
 package redron.tradox.feature.instrument.di
 
 import dagger.Subcomponent
-import redron.tradox.feature.instrument.mvi.InstrumentViewModel
 
-@Subcomponent
+@Subcomponent(modules = [InstrumentModule::class])
 interface InstrumentComponent {
 
-    val viewModel: InstrumentViewModel
+    val viewModelFactory: InstrumentViewModelFactory
 
     @Subcomponent.Factory
     interface Factory {

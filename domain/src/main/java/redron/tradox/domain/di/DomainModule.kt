@@ -2,9 +2,9 @@ package redron.tradox.domain.di
 
 import dagger.Module
 import dagger.Provides
-import redron.tradox.domain.repository.IInstrumentRepository
 import redron.tradox.domain.repository.IPriceRepository
 import redron.tradox.domain.usecase.GetInstrumentDetailsUseCase
+import redron.tradox.domain.usecase.LoadInitialPricesUseCase
 import redron.tradox.domain.usecase.ObservePriceUseCase
 import redron.tradox.domain.usecase.ObservePricesUseCase
 import javax.inject.Singleton
@@ -30,8 +30,16 @@ object DomainModule {
 
     @Provides
     @Singleton
+    fun provideLoadInitialPricesUseCase(
+        repository: IPriceRepository
+    ): LoadInitialPricesUseCase {
+        return LoadInitialPricesUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
     fun provideGetInstrumentDetailsUseCase(
-        repository: IInstrumentRepository
+        repository: IPriceRepository
     ): GetInstrumentDetailsUseCase {
         return GetInstrumentDetailsUseCase(repository)
     }

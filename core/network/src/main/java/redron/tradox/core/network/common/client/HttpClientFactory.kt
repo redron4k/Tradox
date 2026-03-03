@@ -8,8 +8,11 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import redron.tradox.core.network.common.config.AllTickConfig
 import redron.tradox.core.network.common.config.NetworkConfig
 import redron.tradox.core.network.common.retry.configureDefaultRetry
 
@@ -47,6 +50,13 @@ object HttpClientFactory {
             if (NetworkConfig.ENABLE_LOGGING) {
                 install(Logging) {
                     level = LogLevel.ALL
+                }
+            }
+
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = AllTickConfig.BASE_URL
                 }
             }
         }

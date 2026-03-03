@@ -5,17 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AllTickQuoteMessage(
-    val cmd_id: Int,
-    val data: Data
-) {
-    @Serializable
-    data class Data(
-        val code: String,
-        @SerialName("price") val last_price: String? = null,
-        @SerialName("tick_time") val ts: String? = null,
-        val seq: String? = null,
-        val volume: String? = null,
-        val turnover: String? = null,
-        val trade_direction: Int? = null
-    )
-}
+    @SerialName("cmd_id") val cmdId: Int,
+    @SerialName("data") val data: Data,
+)
+
+@Serializable
+data class Data(
+    @SerialName("code") val code: String,
+    @SerialName("price") val price: String? = null,
+    @SerialName("tick_time") val tickTime: String? = null,
+    @SerialName("seq") val seq: String? = null,
+    @SerialName("volume") val volume: String? = null,
+    @SerialName("turnover") val turnover: String? = null,
+    @SerialName("trade_direction") val tradeDirection: Int? = null,
+)
