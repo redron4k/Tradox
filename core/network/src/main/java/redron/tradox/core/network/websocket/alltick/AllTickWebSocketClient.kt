@@ -40,7 +40,6 @@ class AllTickWebSocketClient(
 
                 try {
 
-                    println("Starting WS connection")
 
                     client.webSocket(
                         host = AllTickConfig.BASE_URL,
@@ -54,7 +53,6 @@ class AllTickWebSocketClient(
                         }
                     ) {
 
-                        println("WS CONNECTED")
                         attempt = 0
 
                         sendSubscribe(symbols)
@@ -65,8 +63,6 @@ class AllTickWebSocketClient(
                             for (frame in incoming) {
                                 if (frame is Frame.Text) {
                                     val text = frame.readText()
-                                    println("WS RAW:")
-                                    println(text)
 
                                     // subscribe response
                                     if (text.contains("\"cmd_id\":22005"))
@@ -91,7 +87,6 @@ class AllTickWebSocketClient(
                     }
 
                 } catch (e: Exception) {
-                    println("WS ERROR:")
                     e.printStackTrace()
 
                     attempt++
@@ -101,7 +96,6 @@ class AllTickWebSocketClient(
         }
 
         awaitClose {
-            println("WS FLOW CLOSED")
             wsJob.cancel()
         }
     }
@@ -124,9 +118,6 @@ class AllTickWebSocketClient(
 
         val subscribeJson = json.encodeToString(subscribeRequest)
 
-        println("SUBSCRIBE JSON:")
-        println(subscribeJson)
-
         send(subscribeJson)
     }
 
@@ -144,9 +135,6 @@ class AllTickWebSocketClient(
                 )
 
                 val heartbeatJson = json.encodeToString(heartbeat)
-
-                println("HEARTBEAT:")
-                println(heartbeatJson)
 
                 send(heartbeatJson)
             }

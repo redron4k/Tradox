@@ -98,9 +98,15 @@ class PriceViewModel @Inject constructor(
                                 isLoading = false,
                                 prices = current.prices.map { item ->
                                     if (item.symbol == quote.symbol) {
-                                        item.copy(value = quote.value)
+                                        item.copy(
+                                            value = quote.value,
+                                            updateTime = quote.updateTime,
+                                            isDelayed = quote.isDelayed,
+                                        )
                                     } else {
-                                        item
+                                        item.copy(
+                                            updateTime = quote.updateTime,
+                                            isDelayed = quote.isDelayed,                                        )
                                     }
                                 }
                             )
