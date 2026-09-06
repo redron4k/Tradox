@@ -1,12 +1,6 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -23,5 +17,14 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Tradox"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
- 
+include(":core:ui")
+include(":core:common")
+include(":core:network")
+include(":domain")
+include(":data")
+include(":feature:prices")
+include(":feature:instrument")
